@@ -102,7 +102,7 @@ class Authentication extends GetxController{
   }
   Future<void> signout() async{
     try{
-      await _auth.signOut().then((value) => Get.snackbar("Login Successful", ""));
+      await _auth.signOut().then((value) => Get.snackbar("Logout Successful", ""));
     }
     on FirebaseAuthException catch(e){
       Get.snackbar("An unknown error occurred", "");
