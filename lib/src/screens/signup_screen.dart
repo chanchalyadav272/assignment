@@ -1,3 +1,4 @@
+import 'package:assignment/src/models/usermodel.dart';
 import 'package:assignment/src/utils/sign_up.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _SignUpState extends State<SignUp> {
                       flex: 1,
                       fit: FlexFit.loose,
                       child: Container(
-                        height: controller.value == 'Faculty' ? 600 : 600,
+                        height: controller.type == 'Faculty' ? 600 : 600,
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Colors.white70),
@@ -99,9 +100,9 @@ class _SignUpState extends State<SignUp> {
                                       );
                                     }).toList(),
                                     onChanged: (Object? value) {
-                                      controller.value = value.toString();
+                                      controller.type = value.toString();
                                       if (kDebugMode) {
-                                        print(controller.value);
+                                        print(controller.type);
                                       }
                                       setState(() {});
                                     },
@@ -335,7 +336,7 @@ class _SignUpState extends State<SignUp> {
                                 height: 8,
                               ),
 
-                              controller.value != 'Faculty'
+                              controller.type != 'Faculty'
                                   ? Container(
                                       decoration: const BoxDecoration(
                                           color: Colors.white70,
@@ -349,7 +350,7 @@ class _SignUpState extends State<SignUp> {
                                               TextAlignVertical.center,
                                           decoration: InputDecoration(
                                               hintText:
-                                                  controller.value == 'Student'
+                                                  controller.type == 'Student'
                                                       ? 'Admission year'
                                                       : 'Passout year',
                                               alignLabelWithHint: true,
@@ -371,7 +372,7 @@ class _SignUpState extends State<SignUp> {
                                           },
                                           validator: (value) {
                                             if (value!.isEmpty) {
-                                              return controller.value ==
+                                              return controller.type ==
                                                       'Student'
                                                   ? ("Please enter your admission year")
                                                   : ("Please enter your passout year");
@@ -386,7 +387,7 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     )
                                   : Container(),
-                              controller.value == 'Student'
+                              controller.type == 'Student'
                                   ? const SizedBox(
                                       height: 4,
                                     )
@@ -420,8 +421,10 @@ class _SignUpState extends State<SignUp> {
                                 child: ElevatedButton(
                                     onPressed: () {
 
+
                                       if(_formkey.currentState!.validate()){
-                                        SignUpController.instance.signUp(controller.emailcontroller.text.trim(), controller.passwordcontroller.text.trim());
+                                        final userModel = UserModel(userType: SignUpController.instance.type, email: SignUpController.instance.emailcontroller.text.trim(), password: SignUpController.instance.passwordcontroller.text.trim(), name: SignUpController.instance.namecontroller.text.trim(), mobile: SignUpController.instance.mobilecontroller.text.trim(), collegeName: SignUpController.instance.collegecontroller.text.trim(),year: SignUpController.instance?.yearcontroller.text.trim());
+                                        SignUpController.instance.createUser(userModel);
                                       }
 
                                       if (kDebugMode) {

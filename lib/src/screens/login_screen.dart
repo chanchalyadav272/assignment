@@ -206,7 +206,7 @@ class _LoginState extends State<Login> {
                                   child: ElevatedButton(
                                       onPressed: (){
                                         Authentication.instance.signin(emailcontroller.text.trim(), passwordcontroller.text.trim());
-                                        Get.off(const Home());
+                                        Get.off( Home());
                                         if (kDebugMode) {
                                           print("Signed In");
                                         }

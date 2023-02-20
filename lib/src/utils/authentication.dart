@@ -22,7 +22,7 @@ class Authentication extends GetxController{
   }
 
   _setInitalScreen(User? user) {
-    user == null ? Get.off(()=> const Login()) : Get.off(()=> const Home());
+    user == null ? Get.off(()=> const Login()) : Get.off(()=>  Home());
     FlutterNativeSplash.remove();
 
   }
@@ -66,7 +66,7 @@ class Authentication extends GetxController{
   try{
     await _auth.signInWithEmailAndPassword(email: email, password: password).then((uid)
     {Get.snackbar("Login Successful", "");
-      Get.off(()=> const Home());
+      Get.off(()=>  Home());
     });
   }
   on FirebaseAuthException catch(error){
@@ -93,7 +93,7 @@ class Authentication extends GetxController{
             default:
               errorMessage = "An undefined Error happened.";
           }
-          Get.snackbar("Login failed", errorMessage!);
+          Get.snackbar("Login failed", errorMessage);
 
     if (kDebugMode) {
       print(error);
