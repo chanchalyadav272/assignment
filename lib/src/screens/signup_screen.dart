@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:assignment/src/models/usermodel.dart';
 import 'package:assignment/src/utils/sign_up.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,23 +29,45 @@ class _SignUpState extends State<SignUp> {
 
   Widget build(BuildContext context) {
     late File image;
+    late File resume;
     Future imagePicker() async{
+      try{
+        final img =  await ImagePicker().pickImage(source: ImageSource.gallery);
+        setState(() {
+          if(img != null){
+            image = File(img.path);
+            Get.snackbar("Success", "image selected");
+          }
+          else{
+            Get.snackbar("Error", "No image selected");
+          }
+        });
+      }
+      catch(e){
+        Get.snackbar("Error", e.toString());
+      }
+    }
+    Future resumePicker() async{
      try{
-       final img =  await ImagePicker().pickImage(source: ImageSource.gallery);
-       setState(() {
-         if(img != null){
-           image = File(img.path);
-           Get.snackbar("Success", "image selected");
-         }
-         else{
-           Get.snackbar("Error", "No image selected");
-         }
-       });
+       final result = await FilePicker.platform.pickFiles();
+
+       if (result != null) {
+         resume = File(result.files.single.bytes.toString());
+       } else {
+         Get.snackbar("Error", "No file selected");
+       }
      }
      catch(e){
        Get.snackbar("Error", e.toString());
      }
     }
+    Future uploadResume() async{
+      Reference ref = FirebaseStorage.instance.ref().child('resume').child('${SignUpController.instance.namecontroller.text.trim()}');
+      await ref.putFile(resume);
+
+
+    }
+
     Future uploadImage() async{
       Reference ref = FirebaseStorage.instance.ref().child('images').child('${SignUpController.instance.namecontroller.text.trim()}');
      await ref.putFile(image);
@@ -448,7 +471,9 @@ class _SignUpState extends State<SignUp> {
 
                                   ),
                                   GestureDetector(
-                                    onTap: ((){}),
+                                    onTap: (){
+                                      resumePicker().whenComplete(() => uploadResume());
+                                    },
                                     child: Container(
 
                                       decoration: const BoxDecoration(
