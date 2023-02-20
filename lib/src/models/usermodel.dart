@@ -1,5 +1,5 @@
 
-
+import 'dart:io';
 class UserModel {
   final String? uid;
   final String userType;
@@ -9,9 +9,6 @@ class UserModel {
   final String mobile;
   final String collegeName;
   final String? year;
-  // final File profilePic;
-  // final File resume;
-
   const UserModel({
     this.uid,
     required this.userType,
@@ -21,8 +18,6 @@ class UserModel {
     required this.mobile,
     required this.collegeName,
     this.year,
-    // required this.profilePic,
-    // required this.resume,
   });
 
   toJson() {

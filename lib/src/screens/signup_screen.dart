@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:assignment/src/models/usermodel.dart';
 import 'package:assignment/src/utils/sign_up.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/appbar.dart';
 import 'login_screen.dart';
@@ -19,8 +23,35 @@ class _SignUpState extends State<SignUp> {
   final _formkey = GlobalKey<FormState>();
   final controller = Get.put(SignUpController());
 
+
   @override
+
   Widget build(BuildContext context) {
+    late File image;
+    Future imagePicker() async{
+     try{
+       final img =  await ImagePicker().pickImage(source: ImageSource.gallery);
+       setState(() {
+         if(img != null){
+           image = File(img.path);
+           Get.snackbar("Success", "image selected");
+         }
+         else{
+           Get.snackbar("Error", "No image selected");
+         }
+       });
+     }
+     catch(e){
+       Get.snackbar("Error", e.toString());
+     }
+    }
+    Future uploadImage() async{
+      Reference ref = FirebaseStorage.instance.ref().child('images').child('${SignUpController.instance.namecontroller.text.trim()}');
+     await ref.putFile(image);
+
+
+    }
+
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(56), child: Appbar()),
@@ -256,10 +287,10 @@ class _SignUpState extends State<SignUp> {
                                 decoration: const BoxDecoration(
                                     color: Colors.white70,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                        BorderRadius.all(Radius.circular(10))),
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
+                                      const EdgeInsets.symmetric(horizontal: 4),
                                   child: TextFormField(
                                     textAlignVertical: TextAlignVertical.center,
                                     decoration: const InputDecoration(
@@ -274,11 +305,10 @@ class _SignUpState extends State<SignUp> {
                                     controller: controller.namecontroller,
                                     keyboardType: TextInputType.text,
                                     autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                        AutovalidateMode.onUserInteraction,
                                     textInputAction: TextInputAction.next,
                                     onSaved: (value) {
-                                      controller.namecontroller.text =
-                                      value!;
+                                      controller.namecontroller.text = value!;
                                     },
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -387,32 +417,65 @@ class _SignUpState extends State<SignUp> {
                                       ),
                                     )
                                   : Container(),
-                              controller.type == 'Student'
+                              controller.type != 'Faculty'
                                   ? const SizedBox(
-                                      height: 4,
+                                      height: 8,
                                     )
                                   : Container(),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      imagePicker().whenComplete(() => uploadImage());
+                                    },
+                                    child: Container(
+
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white70,
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
+                                      height: 45,
+                                      alignment: Alignment.center,
+                                      child: const Padding(
+                                        padding:
+                                        EdgeInsets.symmetric(horizontal: 16,),
+                                        child: Text("Select profile pic"),
+
+                                      ),
+                                    ),
+
+                                  ),
+                                  GestureDetector(
+                                    onTap: ((){}),
+                                    child: Container(
+
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white70,
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
+                                      height: 45,
+                                      alignment: Alignment.center,
+                                      child: const Padding(
+                                        padding:
+                                        EdgeInsets.symmetric(horizontal: 16,),
+                                        child: Text("Select resume"),
+
+                                      ),
+                                    ),
+
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
 
                               const SizedBox(
                                 height: 4,
                               ),
-                              // SizedBox(
-                              //   height: 16,
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.end,
-                              //     children: [
-                              //       GestureDetector(
-                              //         child: Text('Forgot password?',
-                              //           style: TextStyle(
-                              //               color: Colors.redAccent
-                              //           ),),
-                              //         onTap: (){
-                              //           print('forgot password');
-                              //         },
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
+
                               const SizedBox(
                                 height: 10,
                               ),
@@ -420,11 +483,31 @@ class _SignUpState extends State<SignUp> {
                                 height: 45,
                                 child: ElevatedButton(
                                     onPressed: () {
-
-
-                                      if(_formkey.currentState!.validate()){
-                                        final userModel = UserModel(userType: SignUpController.instance.type, email: SignUpController.instance.emailcontroller.text.trim(), password: SignUpController.instance.passwordcontroller.text.trim(), name: SignUpController.instance.namecontroller.text.trim(), mobile: SignUpController.instance.mobilecontroller.text.trim(), collegeName: SignUpController.instance.collegecontroller.text.trim(),year: SignUpController.instance?.yearcontroller.text.trim());
-                                        SignUpController.instance.createUser(userModel);
+                                      if (_formkey.currentState!.validate()) {
+                                        final userModel = UserModel(
+                                            userType:
+                                                SignUpController.instance.type,
+                                            email: SignUpController
+                                                .instance.emailcontroller.text
+                                                .trim(),
+                                            password: SignUpController.instance
+                                                .passwordcontroller.text
+                                                .trim(),
+                                            name: SignUpController
+                                                .instance.namecontroller.text
+                                                .trim(),
+                                            mobile: SignUpController
+                                                .instance.mobilecontroller.text
+                                                .trim(),
+                                            collegeName: SignUpController
+                                                .instance.collegecontroller.text
+                                                .trim(),
+                                            year: SignUpController
+                                                .instance?.yearcontroller.text
+                                                .trim(),
+                                       );
+                                        SignUpController.instance
+                                            .createUser(userModel);
                                       }
 
                                       if (kDebugMode) {
