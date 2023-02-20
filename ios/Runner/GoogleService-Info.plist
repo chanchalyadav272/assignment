@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>175973484308-nt65mf0osue562nn9spit72rnr65qu7m.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.175973484308-nt65mf0osue562nn9spit72rnr65qu7m</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCJ6yw0-TDNTwtp-AJv5tQHi8t1jV1Gq2I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>175973484308</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.y.chanchal.assignment</string>
+	<key>PROJECT_ID</key>
+	<string>reva-assignment</string>
+	<key>STORAGE_BUCKET</key>
+	<string>reva-assignment.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:175973484308:ios:375ad22a9d231e864ae401</string>
+</dict>
+</plist>

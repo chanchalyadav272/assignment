@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "175973484308",
+    "project_id": "reva-assignment",
+    "storage_bucket": "reva-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175973484308:android:eda31d34f86b10294ae401",
+        "android_client_info": {
+          "package_name": "com.y.chanchal.assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175973484308-a52ofe9gcg64mqbqfvb4chrlqg0ecaq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpm6tjos6pjZt7PAOj1UI72ATH7yJ8lnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175973484308-a52ofe9gcg64mqbqfvb4chrlqg0ecaq6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
