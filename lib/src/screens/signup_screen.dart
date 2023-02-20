@@ -47,26 +47,7 @@ class _SignUpState extends State<SignUp> {
         Get.snackbar("Error", e.toString());
       }
     }
-    Future resumePicker() async{
-     try{
-       final result = await FilePicker.platform.pickFiles();
 
-       if (result != null) {
-         resume = File(result.files.single.bytes.toString());
-       } else {
-         Get.snackbar("Error", "No file selected");
-       }
-     }
-     catch(e){
-       Get.snackbar("Error", e.toString());
-     }
-    }
-    Future uploadResume() async{
-      Reference ref = FirebaseStorage.instance.ref().child('resume').child('${SignUpController.instance.namecontroller.text.trim()}');
-      await ref.putFile(resume);
-
-
-    }
 
     Future uploadImage() async{
       Reference ref = FirebaseStorage.instance.ref().child('images').child('${SignUpController.instance.namecontroller.text.trim()}');
@@ -471,9 +452,7 @@ class _SignUpState extends State<SignUp> {
 
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-                                      resumePicker().whenComplete(() => uploadResume());
-                                    },
+                                    onTap: (){},
                                     child: Container(
 
                                       decoration: const BoxDecoration(
